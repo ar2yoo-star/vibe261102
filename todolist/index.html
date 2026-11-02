@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>오늘의 할일</title>
+  <script>
+    // 저장된 테마를 먼저 적용해 깜빡임을 막는다
+    try {
+      const saved = JSON.parse(localStorage.getItem('todolist:v1'));
+      const theme = saved && saved.settings && saved.settings.theme;
+      if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <div>
+        <h1>오늘의 할일</h1>
+        <p class="date" id="today-label"></p>
+      </div>
+      <button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="다크 모드로 전환">
+        <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M21 14.5A8.5 8.5 0 0 1 9.5 3a.5.5 0 0 0-.6-.6A9.5 9.5 0 1 0 21.6 15.1a.5.5 0 0 0-.6-.6Z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></svg>
+      </button>
+    </header>
+
+    <div class="banner banner-warn" id="storage-banner" role="status" hidden>
+      이 브라우저에서는 저장되지 않습니다. 페이지를 닫으면 할일이 사라져요.
+    </div>
+
+    <section class="banner" id="carry-banner" aria-live="polite" hidden>
+      <p id="carry-text"></p>
+      <div class="banner-actions">
+        <button type="button" class="btn btn-primary" id="carry-accept">오늘로 가져오기</button>
+        <button type="button" class="btn" id="carry-dismiss">무시</button>
+      </div>
+    </section>
+
+    <form class="add-form" id="add-form" autocomplete="off" novalidate>
+      <label for="new-todo" class="visually-hidden">새 할일</label>
+      <div class="input-wrap">
+        <input id="new-todo" type="text" maxlength="100" placeholder="할 일을 입력하세요…" aria-describedby="counter input-hint">
+        <span class="counter" id="counter">0/100</span>
+      </div>
+      <button type="submit" class="btn btn-primary">추가</button>
+    </form>
+    <p class="input-hint" id="input-hint" aria-live="polite"></p>
+
+    <section class="progress" aria-label="진행률">
+      <p class="progress-text" id="progress-text"></p>
+      <span class="progress-pct" id="progress-pct"></span>
+      <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="오늘 완료율">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+    </section>
+
+    <nav class="filters" aria-label="필터">
+      <a href="#/" data-filter="all">전체</a>
+      <a href="#/active" data-filter="active">남은 일</a>
+      <a href="#/done" data-filter="done">완료</a>
+    </nav>
+
+    <ul class="todo-list" id="todo-list" aria-label="오늘의 할일 목록"></ul>
+    <p class="empty" id="empty" hidden></p>
+
+    <footer class="footer">
+      <p class="shortcuts">
+        <kbd>/</kbd> 입력 · <kbd>Space</kbd> 완료 · <kbd>Delete</kbd> 삭제 · <kbd>Alt</kbd>+<kbd>↑</kbd><kbd>↓</kbd> 이동
+      </p>
+      <button type="button" class="btn btn-ghost" id="clear-done">완료 항목 지우기</button>
+    </footer>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden>
+    <span id="toast-msg"></span>
+    <button type="button" class="toast-action" id="toast-action"></button>
+  </div>
+</body>
+</html>
