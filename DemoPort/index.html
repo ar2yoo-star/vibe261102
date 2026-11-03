@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ar2yoo | Python · HTML5 · iOS 개발자</title>
+  <meta name="description" content="Python, HTML5, iOS 앱 개발을 주력으로 하는 개발자 ar2yoo의 프로필 웹사이트입니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ar2yoo | Python · HTML5 · iOS 개발자">
+  <meta property="og:description" content="Python, HTML5, iOS 앱 개발자 프로필과 프로젝트 포트폴리오">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+  <header class="site-header">
+    <nav class="nav container" aria-label="주요 메뉴">
+      <a class="logo" href="#top">ar2yoo<span>.dev</span></a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li>
+          <button class="theme-toggle" type="button" aria-label="다크 모드 전환">
+            <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero container" id="top">
+      <div class="hero-text">
+        <p class="eyebrow">안녕하세요, 개발자입니다</p>
+        <h1>아이디어를 <em>동작하는</em> 제품으로 만듭니다.</h1>
+        <p class="hero-sub">Python · HTML5 · iOS 앱 개발자</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#projects">프로젝트 보기</a>
+          <a class="btn btn-ghost" href="#contact">연락하기</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="avatar">AY</div>
+        <pre class="code-card"><code><span class="k">class</span> <span class="t">Developer</span>:
+    stack = [<span class="s">"Python"</span>,
+             <span class="s">"HTML5"</span>,
+             <span class="s">"iOS"</span>]
+    email = <span class="s">"ar2yoo@infiniq.co.kr"</span></code></pre>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section container" id="about">
+      <h2 class="section-title">About</h2>
+      <div class="about-grid">
+        <p>
+          백엔드부터 웹 프론트엔드, 그리고 iOS 앱까지 — 하나의 서비스를 처음부터 끝까지 만들 수 있는 개발자입니다.
+          Python으로 안정적인 서버와 자동화 도구를 만들고, HTML5로 빠르고 접근성 높은 웹을 만들며,
+          Swift로 사용자가 매일 손에 쥐는 앱을 만듭니다.
+        </p>
+        <p>
+          단순하고 읽기 쉬운 코드, 측정 가능한 성능, 그리고 실제 사용자에게 도움이 되는 결과물을 중요하게 생각합니다.
+        </p>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="section container" id="skills">
+      <h2 class="section-title">Skills</h2>
+      <div class="skills-grid">
+        <article class="skill-card" data-accent="python">
+          <div class="skill-icon" aria-hidden="true">Py</div>
+          <h3>Python</h3>
+          <p>서버 API, 데이터 처리, 업무 자동화</p>
+          <ul class="tags">
+            <li>Python 3</li><li>FastAPI</li><li>Django</li><li>Flask</li><li>Pandas</li><li>자동화 스크립트</li>
+          </ul>
+        </article>
+        <article class="skill-card" data-accent="web">
+          <div class="skill-icon" aria-hidden="true">&lt;/&gt;</div>
+          <h3>HTML5 / Web</h3>
+          <p>반응형 웹, 인터랙티브 UI, 웹 표준</p>
+          <ul class="tags">
+            <li>HTML5</li><li>CSS3</li><li>JavaScript</li><li>반응형 웹</li><li>Canvas</li><li>Web API</li>
+          </ul>
+        </article>
+        <article class="skill-card" data-accent="ios">
+          <div class="skill-icon" aria-hidden="true">iOS</div>
+          <h3>iOS</h3>
+          <p>네이티브 앱 설계부터 App Store 배포까지</p>
+          <ul class="tags">
+            <li>Swift</li><li>SwiftUI</li><li>UIKit</li><li>Xcode</li><li>App Store 배포</li>
+          </ul>
+        </article>
+      </div>
+      <p class="tools">기타 도구 · <span>Git</span> <span>GitHub</span></p>
+    </section>
+
+    <!-- Projects -->
+    <section class="section container" id="projects">
+      <h2 class="section-title">Projects</h2>
+      <div class="filters" role="group" aria-label="프로젝트 분야 필터">
+        <button class="filter is-active" data-filter="all" aria-pressed="true">전체</button>
+        <button class="filter" data-filter="python" aria-pressed="false">Python</button>
+        <button class="filter" data-filter="html5" aria-pressed="false">HTML5</button>
+        <button class="filter" data-filter="ios" aria-pressed="false">iOS</button>
+      </div>
+      <div class="projects-grid" id="projects-grid" aria-live="polite"></div>
+    </section>
+
+    <!-- Experience -->
+    <section class="section container" id="experience">
+      <h2 class="section-title">Experience</h2>
+      <ol class="timeline" id="timeline"></ol>
+    </section>
+
+    <!-- Contact -->
+    <section class="section container contact" id="contact">
+      <h2 class="section-title">Contact</h2>
+      <p class="contact-lead">프로젝트 협업, 채용, 기술 관련 문의 모두 환영합니다.</p>
+      <a class="contact-email" href="mailto:ar2yoo@infiniq.co.kr">ar2yoo@infiniq.co.kr</a>
+      <div class="contact-actions">
+        <a class="btn btn-primary" href="mailto:ar2yoo@infiniq.co.kr">이메일 보내기</a>
+        <button class="btn btn-ghost" type="button" id="copy-email">주소 복사</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> ar2yoo. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>

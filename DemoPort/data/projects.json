@@ -1,0 +1,67 @@
+{
+  "projects": [
+    {
+      "title": "데이터 자동화 파이프라인",
+      "summary": "매일 수집되는 CSV 데이터를 정제·집계하여 리포트를 자동 생성하는 Python 도구",
+      "category": "python",
+      "tags": ["Python", "Pandas", "자동화"],
+      "links": { "github": "#", "demo": "" }
+    },
+    {
+      "title": "REST API 서버",
+      "summary": "인증, 페이징, 문서 자동화를 갖춘 FastAPI 기반 백엔드 서비스",
+      "category": "python",
+      "tags": ["Python", "FastAPI", "PostgreSQL"],
+      "links": { "github": "#", "demo": "" }
+    },
+    {
+      "title": "반응형 랜딩 페이지",
+      "summary": "시맨틱 HTML5와 CSS Grid로 만든 접근성 중심의 반응형 웹사이트",
+      "category": "html5",
+      "tags": ["HTML5", "CSS3", "JavaScript"],
+      "links": { "github": "#", "demo": "#" }
+    },
+    {
+      "title": "Canvas 인터랙티브 게임",
+      "summary": "HTML5 Canvas와 requestAnimationFrame으로 구현한 브라우저 미니 게임",
+      "category": "html5",
+      "tags": ["HTML5", "Canvas", "JavaScript"],
+      "links": { "github": "#", "demo": "#" }
+    },
+    {
+      "title": "습관 관리 iOS 앱",
+      "summary": "SwiftUI와 위젯을 활용해 일일 습관을 기록하고 통계를 보여주는 앱",
+      "category": "ios",
+      "tags": ["Swift", "SwiftUI", "WidgetKit"],
+      "links": { "github": "#", "appstore": "#" }
+    },
+    {
+      "title": "사내 업무 iOS 앱",
+      "summary": "UIKit 기반으로 사내 결재·공지 기능을 제공하는 업무용 앱",
+      "category": "ios",
+      "tags": ["Swift", "UIKit", "REST API"],
+      "links": { "github": "", "appstore": "#" }
+    }
+  ],
+  "experience": [
+    {
+      "period": "2023 — 현재",
+      "company": "InfiniQ",
+      "role": "소프트웨어 개발자",
+      "highlights": [
+        "Python 기반 백엔드 및 데이터 처리 시스템 개발",
+        "HTML5 웹 서비스 프론트엔드 구축",
+        "iOS 앱 설계 및 App Store 배포"
+      ]
+    },
+    {
+      "period": "2020 — 2023",
+      "company": "이전 회사명",
+      "role": "웹 / 앱 개발자",
+      "highlights": [
+        "반응형 웹사이트 및 관리자 페이지 개발",
+        "Swift 기반 iOS 앱 유지보수 및 기능 개선"
+      ]
+    }
+  ]
+}
