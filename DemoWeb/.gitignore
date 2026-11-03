@@ -41,3 +41,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+
+# 예전 JSON 저장 파일 (Neon DB로 이전 후 사용하지 않음)
+/data
