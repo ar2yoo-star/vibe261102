@@ -1,5 +1,5 @@
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto"
-import { neon } from "@neondatabase/serverless"
+import { neon, type NeonQueryFunction } from "@neondatabase/serverless"
 
 export type Post = {
   id: number
@@ -27,11 +27,18 @@ type PostRow = {
 
 export const PAGE_SIZE = 10
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL 환경 변수가 없습니다. .env.example을 참고해 .env.local을 만들어 주세요.")
-}
+// 빌드 중 페이지 정보를 모을 때도 이 모듈을 불러오므로, 연결은 첫 쿼리 시점에 만든다.
+let client: NeonQueryFunction<false, false> | null = null
 
-const sql = neon(process.env.DATABASE_URL)
+function db(): NeonQueryFunction<false, false> {
+  if (!process.env.DATABASE_URL) {
+    throw new Error(
+      "DATABASE_URL 환경 변수가 없습니다. 로컬은 .env.local, Vercel은 프로젝트 Environment Variables에 설정해 주세요.",
+    )
+  }
+  client ??= neon(process.env.DATABASE_URL)
+  return client
+}
 
 export function hashPassword(password: string): string {
   const salt = randomBytes(16).toString("hex")
@@ -52,7 +59,7 @@ let schemaReady: Promise<void> | null = null
 
 function ensureSchema(): Promise<void> {
   schemaReady ??= (async () => {
-    await sql`
+    await db()`
       CREATE TABLE IF NOT EXISTS posts (
         id            SERIAL PRIMARY KEY,
         title         TEXT NOT NULL,
@@ -64,12 +71,12 @@ function ensureSchema(): Promise<void> {
         updated_at    TIMESTAMPTZ NOT NULL DEFAULT now()
       )
     `
-    const [{ count }] = (await sql`SELECT count(*)::int AS count FROM posts`) as { count: number }[]
+    const [{ count }] = (await db()`SELECT count(*)::int AS count FROM posts`) as { count: number }[]
     if (count > 0) return
 
     const passwordHash = hashPassword("1234")
-    await sql.transaction([
-      sql`
+    await db().transaction([
+      db()`
         INSERT INTO posts (title, content, author, password_hash)
         VALUES (
           'DemoWeb 게시판에 오신 것을 환영합니다',
@@ -78,7 +85,7 @@ function ensureSchema(): Promise<void> {
           ${passwordHash}
         )
       `,
-      sql`
+      db()`
         INSERT INTO posts (title, content, author, password_hash)
         VALUES (
           '게시판 이용 안내',
@@ -130,7 +137,7 @@ export async function listPosts({
   const keyword = query.trim()
   const pattern = `%${keyword.replace(/[\\%_]/g, (c) => `\\${c}`)}%`
 
-  const [{ total }] = (await sql`
+  const [{ total }] = (await db()`
     SELECT count(*)::int AS total FROM posts
     WHERE ${keyword} = '' OR title ILIKE ${pattern} OR author ILIKE ${pattern} OR content ILIKE ${pattern}
   `) as { total: number }[]
@@ -138,7 +145,7 @@ export async function listPosts({
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE))
   const current = Math.min(Math.max(1, page), totalPages)
 
-  const rows = (await sql`
+  const rows = (await db()`
     SELECT id, title, content, author, views, created_at, updated_at FROM posts
     WHERE ${keyword} = '' OR title ILIKE ${pattern} OR author ILIKE ${pattern} OR content ILIKE ${pattern}
     ORDER BY id DESC
@@ -150,7 +157,7 @@ export async function listPosts({
 
 export async function getPost(id: number): Promise<PublicPost | null> {
   await ensureSchema()
-  const rows = (await sql`
+  const rows = (await db()`
     SELECT id, title, content, author, views, created_at, updated_at FROM posts WHERE id = ${id}
   `) as PostRow[]
   return rows[0] ? toPublic(rows[0]) : null
@@ -159,7 +166,7 @@ export async function getPost(id: number): Promise<PublicPost | null> {
 /** 조회수를 1 올리고 갱신된 게시글을 돌려준다. */
 export async function viewPost(id: number): Promise<PublicPost | null> {
   await ensureSchema()
-  const rows = (await sql`
+  const rows = (await db()`
     UPDATE posts SET views = views + 1 WHERE id = ${id}
     RETURNING id, title, content, author, views, created_at, updated_at
   `) as PostRow[]
@@ -175,7 +182,7 @@ export type PostInput = {
 
 export async function createPost(input: PostInput): Promise<PublicPost> {
   await ensureSchema()
-  const rows = (await sql`
+  const rows = (await db()`
     INSERT INTO posts (title, content, author, password_hash)
     VALUES (${input.title}, ${input.content}, ${input.author}, ${hashPassword(input.password)})
     RETURNING id, title, content, author, views, created_at, updated_at
@@ -186,7 +193,7 @@ export async function createPost(input: PostInput): Promise<PublicPost> {
 export type MutationResult = "ok" | "not-found" | "wrong-password"
 
 async function checkPassword(id: number, password: string): Promise<MutationResult> {
-  const rows = (await sql`SELECT password_hash FROM posts WHERE id = ${id}`) as {
+  const rows = (await db()`SELECT password_hash FROM posts WHERE id = ${id}`) as {
     password_hash: string
   }[]
   if (!rows[0]) return "not-found"
@@ -200,7 +207,7 @@ export async function updatePost(
   await ensureSchema()
   const check = await checkPassword(id, input.password)
   if (check !== "ok") return check
-  const rows = await sql`
+  const rows = await db()`
     UPDATE posts SET title = ${input.title}, content = ${input.content}, updated_at = now()
     WHERE id = ${id}
     RETURNING id
@@ -212,6 +219,6 @@ export async function deletePost(id: number, password: string): Promise<Mutation
   await ensureSchema()
   const check = await checkPassword(id, password)
   if (check !== "ok") return check
-  const rows = await sql`DELETE FROM posts WHERE id = ${id} RETURNING id`
+  const rows = await db()`DELETE FROM posts WHERE id = ${id} RETURNING id`
   return rows.length ? "ok" : "not-found"
 }
